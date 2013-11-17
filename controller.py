@@ -5,10 +5,13 @@ import pygame
 from pygame.locals import *
 import time
 
+network.port(int(sys.argv[2]))
 
 def heard(phrase):
 	#Do nothing
 	print "I heard something, its broke"
+
+
 
 network.call(sys.argv[1], whenHearCall=heard)
 
@@ -46,6 +49,12 @@ forward = 0
 backwards = 0
 left = 0
 right = 0
+
+forwardon = 0
+backwardson = 0
+lefton = 0
+righton = 0
+
 while True:
 	keystate = pygame.key.get_pressed()
 	if keystate[pygame.K_RIGHT]:
@@ -86,14 +95,40 @@ while True:
 		backwards = 0
 	
 	#and now process the network code, left and right are first, forwards is second and then backwards is last.
-	if (left == 1):
+	if (left == 1 and lefton == 0):
 		network.say("l")
-	elif (right == 1):
+		lefton = 1
+	elif (right == 1 and righton == 0):
 		network.say("r")
-	elif (forward == 1):
+		righton = 1
+	elif (forward == 1 and forwardon == 0):
 		network.say("f")
-	elif (backwards == 1):
+		forwardon = 1
+	elif (backwards == 1 and backwardson == 0):
 		network.say("b")
+		backwardson = 1
+
+	if(lefton ==1):
+		if(left == 0):
+			network.say("ls")
+			lefton = 0
+
+	if(forwardon ==1):
+		if(forward == 0):
+			network.say("fs")
+			forwardon = 0
+
+	if(righton ==1):
+		if(right == 0):
+			network.say("rs")
+			righton = 0
+
+	if(backwardson ==1):
+		if(backwards == 0):
+			network.say("bs")
+			backwardson = 0
+
+
 
 	pygame.event.pump() # process event queue
-	time.sleep(0.1)
+	#time.sleep(0.1)

@@ -8,7 +8,11 @@ def defaultWhenHungupHandler():
   trace("CONNECTION LOST")
   
 SERVER_HOST     = "0.0.0.0"
-PORT            = 8989
+PORT = 8080
+def port(port):
+	global PORT
+	PORT = port
+
 BUFFER_SIZE     = 1204
 whenHearHandler = None
 whenHungupHandler = defaultWhenHungupHandler
